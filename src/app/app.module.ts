@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmConfig } from 'src/configs/typeorm.config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { PlayerModule } from 'src/domain/player/player.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       inject: [ConfigService],
       useClass: TypeOrmConfig,
     }),
+    PlayerModule,
   ],
   controllers: [AppController],
   providers: [AppService],
