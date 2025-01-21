@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
+import { Player } from 'src/entities/players';
+import { Streamer } from 'src/entities/streamers';
 
 @Injectable()
 export class TypeOrmConfig implements TypeOrmOptionsFactory {
@@ -10,6 +12,7 @@ export class TypeOrmConfig implements TypeOrmOptionsFactory {
     return {
       type: 'postgres',
       url: this.configService.get<string>('DB_URL'),
+      entities: [Player, Streamer],
       synchronize: true,
       logging: true,
     };
