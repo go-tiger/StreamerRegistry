@@ -93,6 +93,16 @@ export class PlayerService {
     }
   }
 
+  async removePlayerById(id: string) {
+    try {
+      const player = await this.playersRepository.findOneOrFail({ where: { minecraftId: id } });
+
+      await this.playersRepository.remove(player);
+    } catch {
+      throw new NotFoundException('해당 마인크래프트 ID가 존재하지 않습니다.');
+    }
+  }
+
   private formatStreamers(streamers: Streamer[]): Record<string, { nickname: string; channel: string }> {
     return streamers.reduce((acc, streamer) => {
       acc[streamer.platform.toLowerCase()] = {

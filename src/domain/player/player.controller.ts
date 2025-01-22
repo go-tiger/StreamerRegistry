@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { PlayerService } from './player.service';
 import { CreatePlayerDto, PlayerDto, SetPlayerIdNicknameDto, SetPlayerUuidNicknameDto } from '../dtos';
 import { ApiConflictResponse, ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse } from '@nestjs/swagger';
@@ -40,5 +40,10 @@ export class PlayerController {
   @ApiNotFoundResponse({ description: '해당 마인크래프트 UUID가 존재하지 않습니다.' })
   async findPlayerByUuid(@Param('uuid') uuid: string): Promise<PlayerDto> {
     return await this.playerService.findPlayerByUuid(uuid);
+  }
+
+  @Delete('id/:id')
+  async removePlayerById(@Param('id') id: string) {
+    return await this.playerService.removePlayerById(id);
   }
 }
