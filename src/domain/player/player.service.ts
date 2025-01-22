@@ -1,5 +1,5 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
-import { CreatePlayerDto, SetPlayerIdNicknameDto } from '../dtos';
+import { CreatePlayerDto, SetPlayerIdNicknameDto, SetPlayerUuidNicknameDto } from '../dtos';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Player } from 'src/entities/players';
 import { Repository } from 'typeorm';
@@ -30,6 +30,22 @@ export class PlayerService {
       { minecraftId: checkPlayerId.minecraftId },
       { nickname: dto.nickname },
     );
+
+    if (result.affected === 1) {
+      return '닉네임이 등록/수정 되었습니다.';
+    } else {
+      throw new ConflictException('닉네임 등록/수정 중 오류가 발생하였습니다.');
+    }
+  }
+
+  async setPlayerUuidNickname(dto: SetPlayerUuidNicknameDto) {
+    const checkPlayerUuid = await this.playersRepository.findOne({ where: { uuid: dto.uuid } });
+
+    if (checkPlayerUuid == null) {
+      throw new NotFoundException('해당 마인크래프트 UUID가 존재하지 않습니다.');
+    }
+
+    const result = await this.playersRepository.update({ uuid: checkPlayerUuid.uuid }, { nickname: dto.nickname });
 
     if (result.affected === 1) {
       return '닉네임이 등록/수정 되었습니다.';

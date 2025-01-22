@@ -12,3 +12,5 @@ export class CreatePlayerDto {
 }
 
 export class SetPlayerIdNicknameDto extends OmitType(CreatePlayerDto, ['uuid'] as const) {}
+
+export class SetPlayerUuidNicknameDto extends OmitType(CreatePlayerDto, ['id'] as const) {}
