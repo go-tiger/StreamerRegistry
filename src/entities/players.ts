@@ -8,7 +8,7 @@ export class Player {
   @Column({ type: 'varchar', name: 'minecraft_id', length: 50, nullable: true })
   minecraftId: string;
 
-  @Column({ type: 'text', unique: true, nullable: false })
+  @Column({ type: 'uuid', unique: true, nullable: false })
   uuid: string;
 
   @Column({ type: 'varchar', length: 50, nullable: true })
