@@ -46,4 +46,9 @@ export class PlayerController {
   async removePlayerById(@Param('id') id: string) {
     return await this.playerService.removePlayerById(id);
   }
+
+  @Delete('uuid/:uuid')
+  async removePlayerByUuid(@Param('uuid') uuid: string) {
+    return await this.playerService.removePlayerByUuid(uuid);
+  }
 }
