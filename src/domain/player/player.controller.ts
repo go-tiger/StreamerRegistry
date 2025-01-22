@@ -34,4 +34,11 @@ export class PlayerController {
   async findPlayerById(@Param('id') id: string): Promise<PlayerDto> {
     return await this.playerService.findPlayerById(id);
   }
+
+  @Get('uuid/:uuid')
+  @ApiOkResponse({ type: PlayerDto })
+  @ApiNotFoundResponse({ description: '해당 마인크래프트 UUID가 존재하지 않습니다.' })
+  async findPlayerByUuid(@Param('uuid') uuid: string): Promise<PlayerDto> {
+    return await this.playerService.findPlayerByUuid(uuid);
+  }
 }

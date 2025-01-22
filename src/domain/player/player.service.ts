@@ -3,8 +3,6 @@ import { CreatePlayerDto, PlayerDto, SetPlayerIdNicknameDto, SetPlayerUuidNickna
 import { InjectRepository } from '@nestjs/typeorm';
 import { Player } from 'src/entities/players';
 import { Repository } from 'typeorm';
-import { channel } from 'diagnostics_channel';
-import { retry } from 'rxjs';
 
 @Injectable()
 export class PlayerService {
@@ -78,6 +76,31 @@ export class PlayerService {
       };
     } catch {
       throw new NotFoundException('해당 마인크래프트 ID가 존재하지 않습니다.');
+    }
+  }
+
+  async findPlayerByUuid(uuid: string): Promise<PlayerDto> {
+    try {
+      const player = await this.playersRepository.findOneOrFail({
+        where: { uuid },
+        relations: ['streamers'],
+      });
+
+      const fixStreamers = player.streamers.reduce((acc, streamer) => {
+        acc[streamer.platform.toLowerCase()] = {
+          nickname: streamer.nickname,
+          channel: streamer.channel,
+        };
+        return acc;
+      }, {});
+      return {
+        minecraftId: player.minecraftId,
+        uuid: player.uuid,
+        nickname: player.nickname,
+        streamers: fixStreamers,
+      };
+    } catch {
+      throw new NotFoundException('해당 마인크래프트 UUID가 존재하지 않습니다.');
     }
   }
 }
