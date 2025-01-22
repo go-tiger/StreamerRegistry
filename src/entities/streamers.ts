@@ -1,7 +1,7 @@
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Player } from './players';
 
-export enum PlatformType {
+export enum Platform {
   SOOP = 'SOOP',
   CHZZK = 'CHZZK',
 }
@@ -11,8 +11,8 @@ export class Streamer {
   @PrimaryGeneratedColumn({ type: 'integer', name: 'id' })
   id: number;
 
-  @Column({ type: 'enum', enum: PlatformType, nullable: false })
-  platform: PlatformType;
+  @Column({ type: 'enum', enum: Platform, nullable: false })
+  platform: Platform;
 
   @Column({ type: 'varchar', length: 50, nullable: true })
   nickname: string;
