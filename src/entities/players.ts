@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Streamer } from './streamers';
 
 @Entity('players', { schema: 'public' })
 export class Player {
@@ -16,4 +17,7 @@ export class Player {
 
   @CreateDateColumn({ type: 'timestamp', name: 'created_at', nullable: false })
   createdAt: Date;
+
+  @OneToMany(() => Streamer, (streamer) => streamer.player)
+  streamers: Streamer[];
 }
