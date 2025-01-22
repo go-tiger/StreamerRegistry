@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, OmitType } from '@nestjs/swagger';
 
 export class CreatePlayerDto {
   @ApiProperty({ example: 'gotiger' })
@@ -10,3 +10,5 @@ export class CreatePlayerDto {
   @ApiProperty({ example: '고랑' })
   nickname?: string;
 }
+
+export class SetPlayerIdNicknameDto extends OmitType(CreatePlayerDto, ['uuid'] as const) {}
