@@ -2,6 +2,7 @@ import { ConflictException, Injectable, NotFoundException } from '@nestjs/common
 import { CreatePlayerDto, PlayerDto, SetPlayerIdNicknameDto, SetPlayerUuidNicknameDto } from '../dtos';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Player } from 'src/entities/players';
+import { Streamer } from 'src/entities/streamers';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -61,13 +62,7 @@ export class PlayerService {
         relations: ['streamers'],
       });
 
-      const fixStreamers = player.streamers.reduce((acc, streamer) => {
-        acc[streamer.platform.toLowerCase()] = {
-          nickname: streamer.nickname,
-          channel: streamer.channel,
-        };
-        return acc;
-      }, {});
+      const fixStreamers = this.formatStreamers(player.streamers);
       return {
         minecraftId: player.minecraftId,
         uuid: player.uuid,
@@ -86,13 +81,7 @@ export class PlayerService {
         relations: ['streamers'],
       });
 
-      const fixStreamers = player.streamers.reduce((acc, streamer) => {
-        acc[streamer.platform.toLowerCase()] = {
-          nickname: streamer.nickname,
-          channel: streamer.channel,
-        };
-        return acc;
-      }, {});
+      const fixStreamers = this.formatStreamers(player.streamers);
       return {
         minecraftId: player.minecraftId,
         uuid: player.uuid,
@@ -102,5 +91,15 @@ export class PlayerService {
     } catch {
       throw new NotFoundException('해당 마인크래프트 UUID가 존재하지 않습니다.');
     }
+  }
+
+  private formatStreamers(streamers: Streamer[]): Record<string, { nickname: string; channel: string }> {
+    return streamers.reduce((acc, streamer) => {
+      acc[streamer.platform.toLowerCase()] = {
+        nickname: streamer.nickname,
+        channel: streamer.channel,
+      };
+      return acc;
+    }, {});
   }
 }
