@@ -4,8 +4,8 @@ import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmConfig } from 'src/configs/typeorm.config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { PlayerModule } from 'src/domain/player/player.module';
-import { MojangApiModule } from 'src/domain/mojang-api/mojang-api.module';
+import { PlayerModule } from 'src/player/player.module';
+import { MojangApiModule } from 'src/mojang-api/mojang-api.module';
 
 @Module({
   imports: [
