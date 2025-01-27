@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, Unique } from 'typeorm';
 import { Player } from './players';
 
 export enum Platform {
@@ -7,6 +7,8 @@ export enum Platform {
 }
 
 @Entity('streamers', { schema: 'public' })
+@Unique(['platform', 'channel'])
+@Unique(['platform', 'player'])
 export class Streamer {
   @PrimaryGeneratedColumn({ type: 'integer', name: 'id' })
   id: number;
