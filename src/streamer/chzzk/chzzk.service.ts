@@ -4,10 +4,11 @@ import {
   ConflictException,
   Injectable,
   InternalServerErrorException,
+  MisdirectedException,
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateChzzkDto } from 'src/dtos';
+import { CreateChzzkDto, UpdateChzzkStreamerDto } from 'src/dtos';
 import { Player } from 'src/entities/players';
 import { Platform, Streamer } from 'src/entities/streamers';
 import { QueryFailedError, Repository } from 'typeorm';
@@ -83,6 +84,21 @@ export class ChzzkService {
         .where("REPLACE(streamer.nickname, ' ', '') ILIKE '%' || REPLACE(:nickname, ' ', '') || '%'", { nickname })
         .andWhere("streamer.platform = 'CHZZK'")
         .getMany();
+    } catch (error) {
+      throw new NotFoundException('해당 스트리머를 찾을 수 없습니다.');
+    }
+  }
+
+  async updateChzzkStreamerById(id: number, dto: UpdateChzzkStreamerDto) {
+    const { platform, nickname, channel } = dto;
+    try {
+      const test = await this.streamerRepository.findOneOrFail({ where: { id }, relations: ['player'] });
+
+      if (platform !== test.platform) throw new MisdirectedException('치지직 스트리머 정보가 아닙니다.');
+      if (nickname) test.nickname = nickname;
+      if (channel) test.channel = channel;
+
+      return await this.streamerRepository.save(test);
     } catch (error) {
       throw new NotFoundException('해당 스트리머를 찾을 수 없습니다.');
     }
