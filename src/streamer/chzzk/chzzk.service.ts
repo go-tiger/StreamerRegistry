@@ -92,13 +92,22 @@ export class ChzzkService {
   async updateChzzkStreamerById(id: number, dto: UpdateChzzkStreamerDto) {
     const { platform, nickname, channel } = dto;
     try {
-      const test = await this.streamerRepository.findOneOrFail({ where: { id }, relations: ['player'] });
+      const streamer = await this.streamerRepository.findOneOrFail({ where: { id }, relations: ['player'] });
 
-      if (platform !== test.platform) throw new MisdirectedException('치지직 스트리머 정보가 아닙니다.');
-      if (nickname) test.nickname = nickname;
-      if (channel) test.channel = channel;
+      if (platform !== streamer.platform) throw new MisdirectedException('치지직 스트리머 정보가 아닙니다.');
+      if (nickname) streamer.nickname = nickname;
+      if (channel) streamer.channel = channel;
 
-      return await this.streamerRepository.save(test);
+      return await this.streamerRepository.save(streamer);
+    } catch (error) {
+      throw new NotFoundException('해당 스트리머를 찾을 수 없습니다.');
+    }
+  }
+
+  async deleteChzzkStreamerById(id: number) {
+    try {
+      const streamer = await this.streamerRepository.findOneOrFail({ where: { id }, relations: ['player'] });
+      return await this.streamerRepository.remove(streamer);
     } catch (error) {
       throw new NotFoundException('해당 스트리머를 찾을 수 없습니다.');
     }

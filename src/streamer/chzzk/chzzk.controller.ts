@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post } from '@nestjs/common';
 import { ChzzkService } from './chzzk.service';
 import { CreateChzzkDto, UpdateChzzkStreamerDto } from 'src/dtos';
 import {
@@ -44,5 +44,12 @@ export class ChzzkController {
   @ApiMisdirectedResponse({ description: '치지직 스트리머 정보가 아닙니다.' })
   async updateChzzkStreamerById(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdateChzzkStreamerDto) {
     return await this.chzzkService.updateChzzkStreamerById(id, dto);
+  }
+
+  @Delete(':id')
+  @ApiOperation({ description: '치지직 정보 삭제' })
+  @ApiNotFoundResponse({ description: '해당 스트리머를 찾을 수 없습니다.' })
+  async deleteChzzkStreamerById(@Param('id', ParseIntPipe) id: number) {
+    return await this.chzzkService.deleteChzzkStreamerById(id);
   }
 }
