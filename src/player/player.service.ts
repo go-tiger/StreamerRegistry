@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Player } from 'src/entities/players';
 import { Streamer } from 'src/entities/streamers';
 import { Repository } from 'typeorm';
+import { StreamerDto } from 'src/dtos/streamer.dto';
 
 @Injectable()
 export class PlayerService {
@@ -113,13 +114,13 @@ export class PlayerService {
     }
   }
 
-  private formatStreamers(streamers: Streamer[]): Record<string, { nickname: string; channel: string }> {
-    return streamers.reduce((acc, streamer) => {
-      acc[streamer.platform.toLowerCase()] = {
-        nickname: streamer.nickname,
-        channel: streamer.channel,
-      };
-      return acc;
-    }, {});
+  private formatStreamers(streamers: Streamer[]): StreamerDto[] {
+    return streamers.map((streamer) => ({
+      id: streamer.id,
+      platform: streamer.platform,
+      nickname: streamer.nickname,
+      channel: streamer.channel,
+      createdAt: streamer.createdAt,
+    }));
   }
 }
