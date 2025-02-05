@@ -68,4 +68,12 @@ export class ChzzkService {
       throw new InternalServerErrorException('플레이어 등록 중 오류가 발생했습니다.');
     }
   }
+
+  async findChzzkSteamerByUid(uid: string) {
+    try {
+      return await this.streamerRepository.findOneOrFail({ where: { channel: uid }, relations: ['player'] });
+    } catch (error) {
+      throw new NotFoundException('해당 스트리머를 찾을 수 없습니다.');
+    }
+  }
 }

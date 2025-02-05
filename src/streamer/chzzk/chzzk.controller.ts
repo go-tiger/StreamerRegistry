@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { ChzzkService } from './chzzk.service';
 import { CreateChzzkDto } from 'src/dtos';
 import {
@@ -21,5 +21,12 @@ export class ChzzkController {
   @ApiInternalServerErrorResponse({ description: '플레이어 등록 중 오류가 발생했습니다.' })
   async registerPlayer(@Body() dto: CreateChzzkDto) {
     return await this.chzzkService.registerPlayer(dto);
+  }
+
+  @Get(':uid/uid')
+  @ApiOperation({ description: '치지직 UID로 조회' })
+  @ApiNotFoundResponse({ description: '해당 스트리머를 찾을 수 없습니다.' })
+  async findChzzkSteamerByUid(@Param('uid') uid: string) {
+    return await this.chzzkService.findChzzkSteamerByUid(uid);
   }
 }
