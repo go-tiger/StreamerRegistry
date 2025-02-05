@@ -5,7 +5,6 @@ import {
   Injectable,
   InternalServerErrorException,
   NotFoundException,
-  UnprocessableEntityException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateChzzkDto } from 'src/dtos';
@@ -53,7 +52,6 @@ export class ChzzkService {
         player,
       });
     } catch (e) {
-      // console.log('🚀  e:', e.driverError);
       if (e instanceof QueryFailedError) {
         const errorDetail = e.driverError.detail ?? '';
 
