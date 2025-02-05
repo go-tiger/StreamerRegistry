@@ -29,4 +29,11 @@ export class ChzzkController {
   async findChzzkSteamerByUid(@Param('uid') uid: string) {
     return await this.chzzkService.findChzzkSteamerByUid(uid);
   }
+
+  @Get(':name/name')
+  @ApiOperation({ description: '치지직 닉네임으로 조회' })
+  @ApiNotFoundResponse({ description: '해당 스트리머를 찾을 수 없습니다.' })
+  async findChzzkSteamerByNickname(@Param('name') name: string) {
+    return await this.chzzkService.findChzzkSteamerByNickname(name);
+  }
 }
