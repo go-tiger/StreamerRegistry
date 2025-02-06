@@ -56,10 +56,10 @@ export class ChzzkService {
       if (e instanceof QueryFailedError) {
         const errorDetail = e.driverError.detail ?? '';
 
-        if (errorDetail.includes('platform, player_id')) {
+        if (errorDetail.includes('Key (platform, player_id)')) {
           throw new ConflictException('이미 등록된 치지직 스트리머입니다.');
         }
-        if (errorDetail.includes('platform, channel')) {
+        if (errorDetail.includes('Key (channel)')) {
           throw new BadRequestException('해당 플랫폼과 스트리머가 이미 등록되었습니다.');
         }
         throw new InternalServerErrorException('플레이어 등록 중 오류가 발생했습니다.');
