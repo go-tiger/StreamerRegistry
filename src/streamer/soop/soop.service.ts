@@ -77,4 +77,17 @@ export class SoopService {
       throw new NotFoundException('해당 스트리머를 찾을 수 없습니다.');
     }
   }
+
+  async findSoopSteamerByNickname(nickname: string) {
+    try {
+      return await this.streamerRepository
+        .createQueryBuilder('streamer')
+        .leftJoinAndSelect('streamer.player', 'player')
+        .where("REPLACE(streamer.nickname, ' ', '') ILIKE '%' || REPLACE(:nickname, ' ', '') || '%'", { nickname })
+        .andWhere("streamer.platform = 'SOOP'")
+        .getMany();
+    } catch (error) {
+      throw new NotFoundException('해당 스트리머를 찾을 수 없습니다.');
+    }
+  }
 }

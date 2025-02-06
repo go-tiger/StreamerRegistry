@@ -29,4 +29,11 @@ export class SoopController {
   async findSoopSteamerById(@Param('id') id: string) {
     return await this.soopService.findSoopSteamerById(id);
   }
+
+  @Get(':name/name')
+  @ApiOperation({ description: 'Soop 닉네임으로 조회' })
+  @ApiNotFoundResponse({ description: '해당 스트리머를 찾을 수 없습니다.' })
+  async findSoopSteamerByNickname(@Param('name') name: string) {
+    return await this.soopService.findSoopSteamerByNickname(name);
+  }
 }
