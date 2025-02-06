@@ -11,12 +11,12 @@ import { CreateSoopDto } from 'src/dtos';
 import { Player } from 'src/entities/players';
 import { Platform, Streamer } from 'src/entities/streamers';
 import { QueryFailedError, Repository } from 'typeorm';
+import { DEFAULT_BASE_URLS, DEFAULT_USER_AGENT } from '../streamer.constants';
 import { firstValueFrom } from 'rxjs';
-import { DEFAULT_USER_AGENT } from '../chzzk/chzzk.constants';
 
 @Injectable()
 export class SoopService {
-  private readonly soopApiUrl: string = 'https://chapi.sooplive.co.kr/api';
+  private readonly soopApiUrl: string = DEFAULT_BASE_URLS.soopBaseUrl;
   constructor(
     private readonly httpService: HttpService,
     @InjectRepository(Streamer) private readonly streamerRepository: Repository<Streamer>,

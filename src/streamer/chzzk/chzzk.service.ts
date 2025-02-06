@@ -12,7 +12,7 @@ import { CreateChzzkDto, UpdateChzzkStreamerDto } from 'src/dtos';
 import { Player } from 'src/entities/players';
 import { Platform, Streamer } from 'src/entities/streamers';
 import { QueryFailedError, Repository } from 'typeorm';
-import { DEFAULT_BASE_URLS, DEFAULT_USER_AGENT } from './chzzk.constants';
+import { DEFAULT_BASE_URLS, DEFAULT_USER_AGENT } from '../streamer.constants';
 import { firstValueFrom } from 'rxjs';
 
 @Injectable()

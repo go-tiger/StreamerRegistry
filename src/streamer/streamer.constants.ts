@@ -1,5 +1,6 @@
 export const DEFAULT_BASE_URLS = {
   chzzkBaseUrl: 'https://api.chzzk.naver.com',
+  soopBaseUrl: 'https://chapi.sooplive.co.kr/api',
 };
 
 export const DEFAULT_USER_AGENT =
