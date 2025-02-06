@@ -106,4 +106,16 @@ export class SoopService {
       throw new NotFoundException('해당 스트리머를 찾을 수 없습니다.');
     }
   }
+
+  async deleteSoopStreamerById(id: number) {
+    try {
+      const streamer = await this.streamerRepository.findOneOrFail({
+        where: { id, platform: Platform.SOOP },
+        relations: ['player'],
+      });
+      return await this.streamerRepository.remove(streamer);
+    } catch (error) {
+      throw new NotFoundException('해당 스트리머를 찾을 수 없습니다.');
+    }
+  }
 }

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post } from '@nestjs/common';
 import { SoopService } from './soop.service';
 import {
   ApiBadRequestResponse,
@@ -44,5 +44,12 @@ export class SoopController {
   @ApiMisdirectedResponse({ description: 'Soop 스트리머 정보가 아닙니다.' })
   async updateSoopStreamerById(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdateSoopStreamerDto) {
     return await this.soopService.updateSoopStreamerById(id, dto);
+  }
+
+  @Delete(':id')
+  @ApiOperation({ description: 'Soop 정보 삭제' })
+  @ApiNotFoundResponse({ description: '해당 스트리머를 찾을 수 없습니다.' })
+  async deleteSoopStreamerById(@Param('id', ParseIntPipe) id: number) {
+    return await this.soopService.deleteSoopStreamerById(id);
   }
 }
