@@ -66,4 +66,15 @@ export class SoopService {
       throw new InternalServerErrorException('플레이어 등록 중 오류가 발생했습니다.');
     }
   }
+
+  async findSoopSteamerById(id: string) {
+    try {
+      return await this.streamerRepository.findOneOrFail({
+        where: { channel: id, platform: Platform.SOOP },
+        relations: ['player'],
+      });
+    } catch (error) {
+      throw new NotFoundException('해당 스트리머를 찾을 수 없습니다.');
+    }
+  }
 }

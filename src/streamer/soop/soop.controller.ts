@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { SoopService } from './soop.service';
 import {
   ApiBadRequestResponse,
@@ -21,5 +21,12 @@ export class SoopController {
   @ApiInternalServerErrorResponse({ description: '플레이어 등록 중 오류가 발생했습니다.' })
   async registerPlayer(@Body() dto: CreateSoopDto) {
     return await this.soopService.registerPlayer(dto);
+  }
+
+  @Get(':id/id')
+  @ApiOperation({ description: 'Soop ID로 조회' })
+  @ApiNotFoundResponse({ description: '해당 스트리머를 찾을 수 없습니다.' })
+  async findSoopSteamerById(@Param('id') id: string) {
+    return await this.soopService.findSoopSteamerById(id);
   }
 }
