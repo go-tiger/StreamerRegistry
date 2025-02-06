@@ -4,10 +4,11 @@ import {
   ConflictException,
   Injectable,
   InternalServerErrorException,
+  MisdirectedException,
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateSoopDto } from 'src/dtos';
+import { CreateSoopDto, UpdateSoopStreamerDto } from 'src/dtos';
 import { Player } from 'src/entities/players';
 import { Platform, Streamer } from 'src/entities/streamers';
 import { QueryFailedError, Repository } from 'typeorm';
@@ -86,6 +87,21 @@ export class SoopService {
         .where("REPLACE(streamer.nickname, ' ', '') ILIKE '%' || REPLACE(:nickname, ' ', '') || '%'", { nickname })
         .andWhere("streamer.platform = 'SOOP'")
         .getMany();
+    } catch (error) {
+      throw new NotFoundException('해당 스트리머를 찾을 수 없습니다.');
+    }
+  }
+
+  async updateSoopStreamerById(id: number, dto: UpdateSoopStreamerDto) {
+    const { platform, nickname, channel } = dto;
+    try {
+      const streamer = await this.streamerRepository.findOneOrFail({ where: { id }, relations: ['player'] });
+
+      if (platform !== streamer.platform) throw new MisdirectedException('Soop 스트리머 정보가 아닙니다.');
+      if (nickname) streamer.nickname = nickname;
+      if (channel) streamer.channel = channel;
+
+      return await this.streamerRepository.save(streamer);
     } catch (error) {
       throw new NotFoundException('해당 스트리머를 찾을 수 없습니다.');
     }

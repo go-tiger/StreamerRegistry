@@ -31,3 +31,5 @@ export class CreateChzzkDto extends OmitType(CreateStreamerDto, ['id'] as const)
 export class CreateSoopDto extends OmitType(CreateStreamerDto, ['uid'] as const) {}
 
 export class UpdateChzzkStreamerDto extends OmitType(PartialType(StreamerDto), ['id'] as const) {}
+
+export class UpdateSoopStreamerDto extends OmitType(PartialType(StreamerDto), ['id'] as const) {}
