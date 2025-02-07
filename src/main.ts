@@ -9,7 +9,7 @@ async function bootstrap() {
 
   setupSwagger(app);
 
-  const PORT = configservice.get<number>('PORT');
+  const PORT = configservice.get<number>('ENV_PORT');
 
   await app.listen(PORT ?? 3000);
   console.log(`🚀 http://localhost:${PORT}`);

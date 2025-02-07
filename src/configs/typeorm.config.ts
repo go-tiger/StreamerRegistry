@@ -11,7 +11,7 @@ export class TypeOrmConfig implements TypeOrmOptionsFactory {
   createTypeOrmOptions(connectionName?: string): TypeOrmModuleOptions | Promise<TypeOrmModuleOptions> {
     return {
       type: 'postgres',
-      url: this.configService.get<string>('DB_URL'),
+      url: this.configService.get<string>('ENV_DB_URL'),
       entities: [Player, Streamer],
       synchronize: true,
       logging: true,
