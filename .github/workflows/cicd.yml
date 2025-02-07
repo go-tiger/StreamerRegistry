@@ -70,7 +70,7 @@ jobs:
             cd ${{ secrets.SERVER_PATH }}/site/StreamerRegistry
 
             # Docker Hub 로그인
-            echo ${{secrets.GHCR_TOKEN}} | docker login -u ${{github.repository_owner}} --password-stdin
+            echo ${{secrets.GHCR_TOKEN}} | docker login ghcr.io -u ${{github.repository_owner}} --password-stdin
 
             # 이미지 풀링
             docker pull ghcr.io/${{github.repository_owner}}/streamer-registry:latest
