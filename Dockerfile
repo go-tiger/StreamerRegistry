@@ -4,12 +4,12 @@ WORKDIR /app
 
 RUN apk add --no-cache yarn
 
+RUN corepack enable && corepack prepare yarn@4.6.0 --activate
+
 COPY package.json yarn.lock ./
 
 RUN yarn install
 
 COPY . .
 
-#RUN yarn build
-
-CMD ["npm", "run", "start:dev"]
+CMD ["yarn", "start:dev"]
