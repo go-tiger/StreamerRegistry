@@ -28,6 +28,7 @@
     "@nestjs/platform-express": "^11.0.1",
     "@nestjs/swagger": "^11.0.2",
     "@nestjs/typeorm": "^11.0.0",
+    "axios": "^1.7.9",
     "mojang-minecraft-api": "^1.0.2",
     "pg": "^8.13.1",
     "reflect-metadata": "^0.2.2",
@@ -78,5 +79,6 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
-  }
+  },
+  "packageManager": "yarn@4.6.0"
 }
